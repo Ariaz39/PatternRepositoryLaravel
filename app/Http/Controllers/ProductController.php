@@ -3,17 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(Product $product)
+    protected $productRepository;
+
+    public function __construct()
     {
-        if (count($product->all()->toArray()) > 0) {
-            $data = $product->all();
+        $this->repositoryProduct = new ProductRepository();
+    }
+
+    public function index()
+    {
+        $products = $this->repositoryProduct->index();
+
+        if (count($products) > 0) {
+            $data = $products;
         } else {
-            $data = 'there aren\'t products to display';
+            $data = 'There aren\'t products to display';
         }
+
         return view('product.index', compact('data'));
     }
 
@@ -22,46 +33,33 @@ class ProductController extends Controller
         return view('product.create');
     }
 
-    public function store(Request $request, Product $product)
+    public function store(Request $request)
     {
-        $product->insert([
-            'name' => $request->name,
-            'description' => $request->description,
-            'created_at' => now()
-        ]);
-
+        $this->repositoryProduct->store($request);
         return redirect()->route('dashboard');
     }
 
     public function show($id)
     {
-        $data = Product::find($id);
+        $data = $this->repositoryProduct->show($id);
         return $data;
     }
 
     public function edit($id)
     {
-        $data = Product::find($id);
+        $data = $this->show($id);
         return view('product.edit', compact('data'));
     }
 
     public function update($id, Request $request)
     {
-        $product = $this->show($id);
-
-        $product->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'updated_at' => now()
-        ]);
-
+        $this->repositoryProduct->update($id, $request);
         return redirect()->route('dashboard');
     }
 
     public function destroy($id)
     {
-        $product = $this->show($id);
-        $product->delete();
+        $this->repositoryProduct->destroy($id);
         return redirect()->route('dashboard');
     }
 }
