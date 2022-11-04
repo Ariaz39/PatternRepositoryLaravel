@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    protected $productRepository;
-
     public function __construct()
     {
         $this->repositoryProduct = new ProductRepository();
@@ -19,11 +16,7 @@ class ProductController extends Controller
     {
         $products = $this->repositoryProduct->index();
 
-        if (count($products) > 0) {
-            $data = $products;
-        } else {
-            $data = 'There aren\'t products to display';
-        }
+        $data = count($products) > 0 ? $products : 'There aren\'t products to display';
 
         return view('product.index', compact('data'));
     }
@@ -41,8 +34,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $data = $this->repositoryProduct->show($id);
-        return $data;
+        return $this->repositoryProduct->show($id);
     }
 
     public function edit($id)

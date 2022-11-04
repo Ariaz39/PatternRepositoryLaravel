@@ -8,7 +8,9 @@ class ProductRepository
 {
     public function index()
     {
-        return Product::all()->toArray();
+        return Product::orderBy('id', 'desc')
+            ->get()
+            ->toArray();
     }
 
     public function store($product)
@@ -37,6 +39,7 @@ class ProductRepository
 
     public function destroy($id)
     {
-        Product::find($id)->delete();
+        Product::find($id)
+            ->delete();
     }
 }

@@ -9,7 +9,6 @@
                 <th>NOMBRE</th>
                 <th>DESCRIPCION</th>
                 <th>FECHA CREACION</th>
-                <th>FECHA ACTUALIZACION</th>
                 <th>ACCIONES</th>
             </tr>
             </thead>
@@ -20,7 +19,6 @@
                     <td>{{ $key['name'] }}</td>
                     <td>{{ $key['description'] }}</td>
                     <td>{{ $key['created_at'] }}</td>
-                    <td>{{ $key['updated_at'] }}</td>
                     <td>
                         <a class="btn btn-sm btn-primary" href="{{ route('edit', $key['id']) }}">Editar</a>
                         <form method="POST" action="{{ route('delete', $key['id']) }}">
