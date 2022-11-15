@@ -13,22 +13,29 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($data as $key)
+            @if(!is_array($data))
                 <tr>
-                    <td>{{ $key['id'] }}</td>
-                    <td>{{ $key['name'] }}</td>
-                    <td>{{ $key['description'] }}</td>
-                    <td>{{ $key['created_at'] }}</td>
-                    <td>
-                        <a class="btn btn-sm btn-primary" href="{{ route('edit', $key['id']) }}">Editar</a>
-                        <form method="POST" action="{{ route('delete', $key['id']) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm">Eliminar</button>
-                        </form>
-                    </td>
+                    <td colspan="5" class="text-center alert alert-danger"><h1>{{ $data }}</h1></td>
                 </tr>
-            @endforeach
+            @else
+                @foreach($data as $key)
+                    <tr>
+                        <td>{{ $key['id'] }}</td>
+                        <td>{{ $key['name'] }}</td>
+                        <td>{{ $key['description'] }}</td>
+                        <td>{{ $key['created_at'] }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary"
+                               href="{{ route('edit', $key['id']) }}">Editar</a>
+                            <form method="POST" action="{{ route('delete', $key['id']) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
             </tbody>
         </table>
     </div>

@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
         $products = $this->repositoryProduct->index();
 
-        $data = count($products) > 0 ? $products : 'There aren\'t products to display';
+        $data = count($products) > 0 ? $products : 'No hay productos para mostrar en este momento.';
 
         return view('product.index', compact('data'));
     }
